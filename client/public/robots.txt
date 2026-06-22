@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mern-user-management-09.netlify.app/sitemap.xml
