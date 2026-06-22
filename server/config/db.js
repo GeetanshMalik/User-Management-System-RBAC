@@ -10,6 +10,79 @@ const connectDB = async () => {
       serverSelectionTimeoutMS: 2000,
     });
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
+
+    // Auto-seed production if it's empty
+    try {
+      const User = require('../models/User');
+      const userCount = await User.countDocuments();
+      if (userCount === 0) {
+        console.log('🌱 Production Database is empty. Auto-seeding demo accounts...');
+        const seedUsers = [
+          {
+            name: 'Super Admin',
+            email: 'superadmin@example.com',
+            password: 'admin123',
+            role: 'admin',
+            status: 'active',
+          },
+          {
+            name: 'Admin User',
+            email: 'admin@example.com',
+            password: 'admin123',
+            role: 'admin',
+            status: 'active',
+          },
+          {
+            name: 'Manager User',
+            email: 'manager@example.com',
+            password: 'manager123',
+            role: 'manager',
+            status: 'active',
+          },
+          {
+            name: 'Geetansh Malik',
+            email: 'geetanshmalik337@gmail.com',
+            password: 'manager123',
+            role: 'manager',
+            status: 'active',
+          },
+          {
+            name: 'User 1',
+            email: 'user1@example.com',
+            password: 'user123',
+            role: 'user',
+            status: 'active',
+          },
+          {
+            name: 'Kartik Z',
+            email: 'kartikz@example.com',
+            password: 'user123',
+            role: 'user',
+            status: 'active',
+          },
+          {
+            name: 'Alice Johnson',
+            email: 'alice@example.com',
+            password: 'user123',
+            role: 'user',
+            status: 'active',
+          },
+          {
+            name: 'Bob Smith',
+            email: 'bob@example.com',
+            password: 'user123',
+            role: 'user',
+            status: 'active',
+          }
+        ];
+        for (const userData of seedUsers) {
+          await User.create(userData);
+        }
+        console.log(`✅ Production Database seeded with ${seedUsers.length} demo users`);
+      }
+    } catch (seedError) {
+      console.log(`⚠️  Could not auto-seed production DB: ${seedError.message}`);
+    }
   } catch (error) {
     console.error(`❌ MongoDB Atlas Connection Failed: ${error.message}`);
     console.log(`⚠️  Your current IP might not be whitelisted in MongoDB Atlas`);

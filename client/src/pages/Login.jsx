@@ -519,7 +519,7 @@ const Login = () => {
                   <h3 className="text-lg font-bold text-gray-900">Developer Demo Sandbox</h3>
                 </div>
                 
-                <div className="space-y-3 text-sm text-gray-600 mb-6 leading-relaxed">
+                <div className="space-y-3 text-sm text-gray-600 mb-5 leading-relaxed">
                   <p>
                     Welcome to the <strong>User Management System (RBAC)</strong> demo! 
                   </p>
@@ -529,6 +529,15 @@ const Login = () => {
                   <p>
                     A full set of mock testing credentials (for Admin, Manager, and standard User roles) are pre-seeded in the database and can be auto-filled using the <strong>"View demo accounts"</strong> link at the bottom of the login form.
                   </p>
+                </div>
+
+                {/* Render Sleeping Server Alert */}
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-3.5 text-xs text-amber-900 flex gap-3 mb-6">
+                  <Loader2 className="w-5 h-5 text-amber-600 animate-spin flex-shrink-0 mt-0.5" />
+                  <div>
+                    <strong className="font-bold text-amber-900 block mb-0.5">⚠️ Render Free Tier Server Notice</strong>
+                    Because the backend is hosted on Render's free tier, it automatically spins down due to inactivity. <strong>Your first sign-in attempt may take up to 50 seconds to wake the server up.</strong> Please do not close the page; it will load!
+                  </div>
                 </div>
                 
                 <button

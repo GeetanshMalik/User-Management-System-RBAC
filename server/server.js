@@ -20,21 +20,28 @@ connectDB();
 app.use(helmet());
 
 // CORS configuration
+const clientUrl = process.env.CLIENT_URL ? process.env.CLIENT_URL.replace(/\/$/, '') : null;
 const allowedOrigins = [
   'http://localhost:5173',
   'http://localhost:5174',
-  process.env.CLIENT_URL,
+  clientUrl,
 ].filter(Boolean);
+
+console.log(`🔒 Configured CORS allowed origins:`, allowedOrigins);
 
 app.use(cors({
   origin: function (origin, callback) {
     // Allow requests with no origin (mobile apps, Postman, etc.)
     if (!origin) return callback(null, true);
     
-    if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+    // Clean trailing slash from origin for comparison (though browsers usually don't send it)
+    const cleanOrigin = origin.replace(/\/$/, '');
+    
+    if (allowedOrigins.indexOf(cleanOrigin) !== -1 || process.env.NODE_ENV === 'development') {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      console.warn(`⚠️ CORS Blocked request from origin: ${origin}`);
+      callback(new Error(`Not allowed by CORS: ${origin}`));
     }
   },
   credentials: true,
