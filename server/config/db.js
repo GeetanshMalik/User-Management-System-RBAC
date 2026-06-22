@@ -11,12 +11,13 @@ const connectDB = async () => {
     });
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
 
-    // Auto-seed production if it's empty
+    // Auto-seed production if superadmin is missing
     try {
       const User = require('../models/User');
-      const userCount = await User.countDocuments();
-      if (userCount === 0) {
-        console.log('🌱 Production Database is empty. Auto-seeding demo accounts...');
+      const superAdminExists = await User.findOne({ email: 'superadmin@example.com' });
+      if (!superAdminExists) {
+        console.log('🌱 superadmin@example.com not found. Force-seeding demo accounts...');
+        await User.deleteMany({}); // Wipe existing to avoid uniqueness conflicts
         const seedUsers = [
           {
             name: 'Super Admin',
