@@ -266,11 +266,6 @@ User-Management-System/
 
 This project is licensed under the MIT License.
 
-## Author
-
-Kamal Mudgil
-- GitHub: [@kamalmudgil02](https://github.com/kamalmudgil02)
-
 ## Acknowledgments
 
 - React team for the amazing framework
